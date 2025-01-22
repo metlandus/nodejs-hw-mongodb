@@ -1,0 +1,13 @@
+/node_modules
+
+# Ignore virtual environment directories
+venv/
+.env
+
+# Ignore IDE/editor specific files
+.vscode/
+.idea/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
