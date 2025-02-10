@@ -1,10 +1,11 @@
-import Contact from "../db/Contact.js";
+import Contacts from "../db/Contact.js";
 
-export const getContacts = async () => {
-	try {
-		const contacts = await Contact.find();
-		return contacts;
-	} catch {
-		throw new Error("Failed to fetch contacts");
-	}
-};
+export async function getAllContacts() {
+	const contacts = await Contacts.find();
+	return contacts;
+}
+
+export async function getContactById(contactId) {
+	const contact = await Contacts.findById(contactId);
+	return contact;
+}

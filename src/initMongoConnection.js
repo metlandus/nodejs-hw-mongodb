@@ -1,24 +1,21 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-function initMongoConnection() {
-    const mongoUri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URL}/${process.env.MONGODB_DB}?retryWrites=true&w=majority&appName=FirstCluster`;
+export async function initMongoConnection() {
+	try {
+		const user = process.env.MONGODB_USER;
+		const pwd = process.env.MONGODB_PASSWORD;
+		const url = process.env.MONGODB_URL;
+		const db = process.env.MONGODB_DB;
 
-    if (!mongoUri) {
-        console.error('MongoDB connection string is missing in environment variables');
-        process.exit(1);
-    }
-
-    mongoose.connect(mongoUri)
-    .then(() => {
-        console.log('Connected to MongoDB');
-    })
-    .catch((error) => {
-        console.error('Error connecting to MongoDB:', error);
-        process.exit(1);
-    });
+		await mongoose.connect(
+			`mongodb+srv://${user}:${pwd}@${url}/${db}?retryWrites=true&w=majority`
+		);
+		console.log("Mongo connection is successfull!");
+	} catch (e) {
+		console.log("Error while setting up mongo connection", e);
+		throw e;
+	}
 }
-
-export default initMongoConnection;
