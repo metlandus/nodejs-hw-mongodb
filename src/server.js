@@ -3,7 +3,8 @@ import cors from "cors";
 import pino from "pino";
 import pinoHttp from "pino-http";
 import dotenv from "dotenv";
-import { getAllContacts, getContactById } from "./services/contacts.js";
+import contactRouter from "./routers/contacts";
+import { notFound } from "./middlewares/notFoundHandler";
 
 dotenv.config();
 
@@ -29,34 +30,10 @@ export function setupServer() {
 		res.send("Hello World!");
 	});
 
-	// Register the contacts route
-	app.get("/contacts", async (req, res) => {
-		const contacts = await getAllContacts();
-		res.status(200).json({
-			message: "Successfully found contacts",
-			data: contacts,
-		});
-	});
-	app.get("/contacts/:contactId", async (req, res, next) => {
-		const { contactId } = req.params;
-		const contact = await getContactById(contactId);
-
-		if (!contact) {
-			res.status(404).json({
-				message: "Contact not found",
-			});
-			return;
-		}
-		res.status(200).json({
-			message: `Successfully found contact with the id ${contactId}`,
-			data: contact,
-		});
-	});
+	app.use("/contacts", contactRouter);
 
 	// Middleware to handle non-existent paths
-	app.use("*", (req, res, next) => {
-		res.status(404).send({ error: "Path not found" });
-	});
+	app.use("*", notFound);
 
 	app.listen(port, () => {
 		logger.info(`Server is running on port ${port}`);
