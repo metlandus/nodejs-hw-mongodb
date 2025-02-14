@@ -1,4 +1,4 @@
-import { getAllContacts, getContactById } from "./services/contacts.js";
+import { getAllContacts, getContactById } from "../services/contacts.js";
 
 export async function getContacts(req, res) {
 	const contacts = await getAllContacts();
@@ -19,7 +19,7 @@ export async function getContactId(req, res, next) {
 		return;
 	}
 	res.status(200).json({
-		message: `Successfully found contact with the id ${contactId}`,
+		message: `Successfully found contact with the id: ${contactId}`,
 		data: contact,
 	});
 }

@@ -3,8 +3,8 @@ import cors from "cors";
 import pino from "pino";
 import pinoHttp from "pino-http";
 import dotenv from "dotenv";
-import contactRouter from "./routers/contacts";
-import { notFound } from "./middlewares/notFoundHandler";
+import contactRouter from "./routers/contacts.js";
+import { notFound } from "./middlewares/notFoundHandler.js";
 
 dotenv.config();
 
