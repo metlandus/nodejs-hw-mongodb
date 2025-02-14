@@ -4,7 +4,8 @@ import pino from "pino";
 import pinoHttp from "pino-http";
 import dotenv from "dotenv";
 import contactRouter from "./routers/contacts.js";
-import { notFound } from "./middlewares/notFoundHandler.js";
+import { notFoundHandler } from "./middlewares/notFoundHandler.js";
+import { errHandler } from "./middlewares/errorHandler.js";
 
 dotenv.config();
 
@@ -22,18 +23,17 @@ app.use(
 	})
 );
 app.use(cors());
-app.use(express.json()); // To parse JSON request bodies
+app.use(express.json());
 
 export function setupServer() {
 	app.get("/", (req, res) => {
 		req.log.info("Hello World route accessed");
 		res.send("Hello World!");
 	});
-
 	app.use("/contacts", contactRouter);
 
-	// Middleware to handle non-existent paths
-	app.use("*", notFound);
+	app.use("*", notFoundHandler);
+	app.use(errHandler);
 
 	app.listen(port, () => {
 		logger.info(`Server is running on port ${port}`);
