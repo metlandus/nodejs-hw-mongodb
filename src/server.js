@@ -3,7 +3,7 @@ import cors from "cors";
 import pino from "pino";
 import pinoHttp from "pino-http";
 import dotenv from "dotenv";
-import contactRouter from "./routers/contacts.js";
+import router from "./routers/index.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { errHandler } from "./middlewares/errorHandler.js";
 
@@ -30,8 +30,7 @@ export function setupServer() {
 		req.log.info("Hello World route accessed");
 		res.send("Hello World!");
 	});
-	app.use("/contacts", contactRouter);
-
+	app.use(router);
 	app.use("*", notFoundHandler);
 	app.use(errHandler);
 
