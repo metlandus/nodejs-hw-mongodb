@@ -23,6 +23,7 @@ const contactSchema = new mongoose.Schema(
 			required: true,
 			default: "personal",
 		},
+		parentId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 	},
 	{ timestamps: true }
 );

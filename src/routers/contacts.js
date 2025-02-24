@@ -10,8 +10,11 @@ import {
 import createUpdateContactSchema from "../validation/contacts.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { isValidId } from "../middlewares/isValid.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 const router = express.Router();
+
+router.use(authenticate);
 
 router
 	.route("/")
@@ -28,5 +31,6 @@ router
 		validateBody(createUpdateContactSchema),
 		ctrlWrapper(updateContactController)
 	);
+
 
 export default router;
