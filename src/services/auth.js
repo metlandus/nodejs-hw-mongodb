@@ -21,7 +21,7 @@ export const registerUser = async (payload) => {
 };
 
 export const loginUser = async (payload) => {
-	const user = findUser(payload.email);
+	const user = await findUser(payload.email);
 	if (!user) {
 		throw createHttpError(404, "User not found");
 	}
