@@ -7,6 +7,7 @@ import router from "./routers/index.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { errHandler } from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser";
+import { UPLOAD_DIR } from "./constants/index.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(UPLOAD_DIR));
 
 export function setupServer() {
 	app.get("/", (req, res) => {

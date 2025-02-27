@@ -24,8 +24,9 @@ const contactSchema = new mongoose.Schema(
 			default: "personal",
 		},
 		parentId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+		photo: { type: String },
 	},
-	{ timestamps: true }
+	{ timestamps: true, versionKey:false }
 );
 
 const Contacts = mongoose.model("Contact", contactSchema);

@@ -9,19 +9,22 @@ import createHttpError from "http-errors";
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import { parseFilterParams } from "../utils/parseFilterParams.js";
+import { saveFileToUploadDir } from "../utils/saveFileToUploadDir.js";
+import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
+import { env } from "../utils/env.js";
 
 export async function getContactsController(req, res, next) {
 	try {
 		const { page, perPage } = parsePaginationParams(req.query);
-        const { sortBy, sortOrder } = parseSortParams(req.query);
-        const filter = parseFilterParams(req.query);
+		const { sortBy, sortOrder } = parseSortParams(req.query);
+		const filter = parseFilterParams(req.query);
 
 		const contacts = await getAllContacts({
 			page,
 			perPage,
 			sortBy,
-            sortOrder,
-            filter,
+			sortOrder,
+			filter,
 		});
 		res.status(200).json({
 			message: "Successfully found contacts",
@@ -73,8 +76,24 @@ export async function deleteContactController(req, res, next) {
 
 export async function updateContactController(req, res, next) {
 	const { contactId } = req.params;
-	const result = await updateContact(contactId, req.body);
+	const photo = req.file;
+	let photoUrl;
+	if (photo) {
+		if (env("ENABLE_CLOUDINARY") === "true") {
+			photoUrl = await saveFileToCloudinary(photo);
+		} else {
+			photoUrl = await saveFileToUploadDir(photo);
+		}
+	}
 
+	const result = await updateContact(contactId, {
+		...req.body,
+		photo: photoUrl,
+	});
+	if (!result) {
+		next(createHttpError(404, "Contact Not Found"));
+		return;
+	}
 	res.status(200).json({
 		status: 200,
 		message: "Successfully patched a contact!",
