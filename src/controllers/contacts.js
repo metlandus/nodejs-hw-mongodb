@@ -49,7 +49,18 @@ export async function getContactByIdController(req, res, next) {
 }
 
 export async function createContactController(req, res, next) {
-	const contact = await createContact(req.body);
+
+	const photo = req.file;
+	let photoUrl;
+	if (photo) {
+		if (env("ENABLE_CLOUDINARY") === "true") {
+			photoUrl = await saveFileToCloudinary(photo);
+		} else {
+			photoUrl = await saveFileToUploadDir(photo);
+		}
+	}
+	const contactData = { ...req.body, photoUrl, userId: req.user._id };
+	const contact = await createContact(contactData);
 
 	res.status(201).json({
 		status: 201,

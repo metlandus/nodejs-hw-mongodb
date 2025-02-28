@@ -23,10 +23,10 @@ const contactSchema = new mongoose.Schema(
 			required: true,
 			default: "personal",
 		},
-		parentId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+		//parentId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 		photo: { type: String },
 	},
-	{ timestamps: true, versionKey:false }
+	{ timestamps: true, versionKey: false }
 );
 
 const Contacts = mongoose.model("Contact", contactSchema);
