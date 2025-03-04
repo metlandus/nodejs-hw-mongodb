@@ -4,22 +4,24 @@ info:
     title: Contacts App
     license:
         name: Apache 2.0
-        url: <http://www.apache.org/licenses/LICENSE-2.0.html>
-    description: >
-        Documantation of Contacts app api
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
+    description: Documentation of Contacts app API
 tags:
     - name: Contacts
-    description: Operations about users
-    - name: Auth
-    description: Auth Operations
-    # kullanacağınız etiketler
+      description: Operations about users
+    - name: bearerAuth
+      description: Auth Operations
 servers:
-    - url: <http://localhost:5173>
-    - url: #yayınlanmış siteye bağlantı
+    - url: http://127.0.0.1:5173
 paths:
+    /contacts:
+        get:
+            $ref: ../swagger/paths/contacts/get.yaml
+        post:
+            $ref: ../swagger/paths/contacts/post.yaml
     /contacts/{id}:
-    get:
-        $ref: ../swagger/paths/contacts/{id}/get.yaml
+        get:
+            $ref: ../swagger/paths/contacts/{id}/get.yaml
 components:
     securitySchemes:
         bearerAuth:
