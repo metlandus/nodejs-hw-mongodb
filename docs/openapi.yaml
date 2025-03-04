@@ -12,7 +12,7 @@ tags:
     - name: bearerAuth
       description: Auth Operations
 servers:
-    - url: http://127.0.0.1:5173
+    - url: http://localhost:5173
 paths:
     /contacts:
         get:
@@ -22,6 +22,10 @@ paths:
     /contacts/{id}:
         get:
             $ref: ../swagger/paths/contacts/{id}/get.yaml
+        patch:
+            $ref: ../swagger/paths/contacts/{id}/patch.yaml
+        delete:
+            $ref: ../swagger/paths/contacts/{id}/delete.yaml
 components:
     securitySchemes:
         bearerAuth:

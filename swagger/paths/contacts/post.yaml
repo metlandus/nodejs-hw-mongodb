@@ -12,20 +12,21 @@ requestBody:
                 type: object
                 required:
                     - name
-                    - age
-                    - gender
-                    - avgMark
-                    - parentId
+                    - phoneNumber
+                    - email
+                    - isFavourite
+                    - contactType
+                    - photo
                 properties:
                     name:
                         description: "Contact's name"
                         type: string
                         example: "John Doe"
-                    age:
+                    phoneNumber:
                         description: "Contact's Phone Number"
                         type: string
                         example: "5327444444"
-                    mail:
+                    email:
                         description: "Contact's email"
                         type: string
                         example: "johndoe@data.com"
